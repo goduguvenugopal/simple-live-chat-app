@@ -16,31 +16,8 @@
   <meta name="keywords"
     content="live chat, real-time messaging, chat app, instant messaging, group chat, socket.io chat, react chat app, simple chat application" />
   <meta name="author" content="Venugopal" />
+  <link rel="stylesheet" href="style.css">
 
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-
-    body::-webkit-scrollbar {
-      display: none;
-    }
-
-    #messages-card {
-      max-height: 90vh;
-      overflow-y: auto;
-
-    }
-
-    #messages-card::-webkit-scrollbar {
-      display: none;
-    }
-
-    #modal-box {
-      display: none;
-    }
-  </style>
 </head>
 
 <body>
@@ -61,13 +38,13 @@
       logout
     </span>
     <span onclick="shareApp()" style="
-cursor: pointer;
-position: absolute;
-top: 10px;
-left: 8px;
-border-color: white;
-z-index: 10px;
-" class="fw-semibold text-white">
+     cursor: pointer;
+     position: absolute;
+    top: 10px;
+    left: 8px;
+    border-color: white;
+    z-index: 10px;
+     " class="fw-semibold text-white">
       Share
     </span>
   </header>
@@ -82,12 +59,13 @@ z-index: 10px;
   </main>
 
 
-  <!--name add modal  -->
+  <!--user name room name add modal  -->
   <div id="modal-box"
     style="position: fixed; left: 0; top: 0; background-color: rgb(96, 91, 91 , 0.6); height: 100vh; width: 100vw;">
     <div class="d-flex justify-content-center h-100 w-100 align-items-center">
       <div class="text-center">
-        <input autofocus id="user-name" type="text" class="form-control mb-2" placeholder="Enter your name">
+        <input autofocus id="user-name" type="text" class="form-control mb-2" placeholder="Enter Your Name">
+        <input type="text" id="room-name" placeholder="Enter Room Name" class="form-control mb-2">
         <button id="add-name-btn" class="btn bg-primary text-white">Join Room</button>
       </div>
     </div>
@@ -97,88 +75,7 @@ z-index: 10px;
 
   <!-- socket.io connection -->
   <script src="/socket.io/socket.io.js"></script>
-
-  <script>
-    const socket = io();
-    const user_message = document.getElementById("user-message");
-    const send_message = document.getElementById("send-message");
-    const messages_card = document.getElementById("messages-card")
-    const modal_box = document.getElementById("modal-box")
-    const user_name = document.getElementById("user-name")
-    const add_name_btn = document.getElementById("add-name-btn")
-    const log_out = document.getElementById("logout")
-
-    let name
-
-    // checking user in localStorage if available user name the modal box display none 
-    window.addEventListener("load", () => {
-      const userName = localStorage.getItem("userName")
-      if (userName) {
-        const parseName = JSON.parse(userName)
-        name = parseName
-        modal_box.style.display = "none"
-      } else {
-        modal_box.style.display = "block"
-      }
-    })
-
-    // modal box rendering conditionally and storing user name in localStorage 
-    add_name_btn.addEventListener("click", () => {
-      const userName = user_name.value.trim()
-      if (userName !== "") {
-        localStorage.setItem("userName", JSON.stringify(userName))
-        modal_box.style.display = "none"
-        name = userName
-      }
-      else {
-        alert("Please Enter your name and Join Room")
-      }
-    })
-
-    // remove the user name in local storage 
-    log_out.addEventListener("click", () => {
-      localStorage.removeItem("userName")
-      modal_box.style.display = "block"
-    })
-
-    // sending message function 
-    send_message.addEventListener("click", () => {
-      if (user_message.value === "") {
-        alert("Please enter message")
-      } else {
-        const message = user_message.value;
-        const concatStr = `${name} 👉 ${message}`
-        socket.emit("user-message", concatStr);
-        user_message.value = "";
-        user_message.focus();
-      }
-    });
-
-    // displaying messages with socket.on from server 
-    socket.on("message", (message) => {
-      const newDiv = document.createElement("div")
-      newDiv.className = "shadow rounded p-2 mb-2 text-capitalize"
-      newDiv.textContent = message
-      messages_card.appendChild(newDiv)
-      messages_card.scrollTop = messages_card.scrollHeight;
-
-    })
-
-    // share App function 
-    const shareApp = async () => {
-      try {
-        await navigator.share({
-          title: "Simple Live Chat App",
-          text: "Simple Live Chat App is a real-time messaging platform that allows users to communicate instantly.",
-          url: "https://simple-live-chat-app.onrender.com/"
-        });
-      } catch (error) {
-        console.log("Error sharing:", error);
-      }
-    };
-
-
-  </script>
+  <script src="script.js"></script>
 </body>
 
 </html>

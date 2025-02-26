@@ -1,0 +1,22 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+#messages-card {
+    max-height: 90vh;
+    overflow-y: auto;
+
+}
+
+#messages-card::-webkit-scrollbar {
+    display: none;
+}
+
+#modal-box {
+    display: none;
+}
