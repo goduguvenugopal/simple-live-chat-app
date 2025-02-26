@@ -16,12 +16,12 @@ let room_Name;
 // Checking user name and room name in localStorage
 window.addEventListener("load", () => {
   const userName = localStorage.getItem("userName");
-  const roomName = localStorage.getItem("roomName"); // FIXED: Now gets roomName correctly
+  const roomName = localStorage.getItem("roomName");
 
   if (userName && roomName) {
     person_name = JSON.parse(userName);
     room_Name = JSON.parse(roomName);
-    
+
     socket.emit("join-room", { person_name, room_Name });
     modal_box.style.display = "none";
   } else {
@@ -31,18 +31,20 @@ window.addEventListener("load", () => {
 
 // Storing user name and room name in localStorage
 add_name_btn.addEventListener("click", () => {
-  const userName = user_name.value.trim();
+  const inputUserName = user_name.value.trim();
+  const userName =
+    inputUserName.charAt(0).toUpperCase() + inputUserName.slice(1);
   const roomName = room.value.trim();
 
   if (userName && roomName) {
     person_name = userName;
     room_Name = roomName;
-    
+
     socket.emit("join-room", { person_name, room_Name });
 
     localStorage.setItem("userName", JSON.stringify(userName));
     localStorage.setItem("roomName", JSON.stringify(roomName));
-    
+
     modal_box.style.display = "none";
   } else {
     alert("Please Enter Your Name and Room Name");
@@ -53,20 +55,20 @@ add_name_btn.addEventListener("click", () => {
 log_out.addEventListener("click", () => {
   localStorage.removeItem("userName");
   localStorage.removeItem("roomName");
-  
+
   modal_box.style.display = "block";
 });
 
 // Sending message function
 send_message.addEventListener("click", () => {
   if (user_message.value.trim() === "") {
-    alert("Please enter a message");
+    alert("Please Enter a Message");
   } else {
     const message = user_message.value.trim();
     const formattedMessage = `${person_name} 👉 ${message}`;
-    
+
     socket.emit("send-message", { room_Name, message: formattedMessage });
-    
+
     user_message.value = "";
     user_message.focus();
   }
@@ -74,11 +76,32 @@ send_message.addEventListener("click", () => {
 
 // Receiving messages from server
 socket.on("message", (message) => {
-  const newDiv = document.createElement("div");
-  newDiv.className = "shadow rounded p-2 mb-2 text-capitalize";
-  newDiv.textContent = message;
-  
-  messages_card.appendChild(newDiv);
+  const messageArr = message.split(" ");
+  const firstWord = messageArr[0];
+
+  if (firstWord === person_name) {
+    const newDiv = document.createElement("div");
+    newDiv.className = " mb-2 right-div";
+    const spanEle = document.createElement("span");
+    spanEle.className = "right-span rounded p-2";
+    spanEle.textContent = message;
+    newDiv.appendChild(spanEle);
+    messages_card.appendChild(newDiv);
+  } else if (firstWord === "Welcome") {
+    const newDiv = document.createElement("div");
+    newDiv.className = "rounded p-2 mb-2 bg-warning ";
+    newDiv.textContent = message;
+    messages_card.appendChild(newDiv);
+  } else {
+    const newDiv = document.createElement("div");
+    newDiv.className = " mb-2 left-div";
+    const spanEle = document.createElement("span");
+    spanEle.className = "left-span rounded p-2";
+    spanEle.textContent = message;
+    newDiv.appendChild(spanEle);
+    messages_card.appendChild(newDiv);
+  }
+
   messages_card.scrollTop = messages_card.scrollHeight;
 });
 

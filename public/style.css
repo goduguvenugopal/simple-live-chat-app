@@ -9,14 +9,52 @@ body::-webkit-scrollbar {
 
 #messages-card {
     max-height: 90vh;
+    width: 100%;
     overflow-y: auto;
-
 }
 
 #messages-card::-webkit-scrollbar {
     display: none;
 }
 
+.right-div {
+    display: flex;
+    justify-content: end;
+
+    padding-left: 2rem;
+}
+
+.right-span {
+    background-color: green;
+    color: white;
+    font-weight: 500;
+}
+
+.left-div {
+    display: flex;
+    justify-content: start;
+    padding-right: 2rem;
+}
+
+.left-span {
+    background-color: rgb(68, 69, 71);
+    color: white;
+    font-weight: 500;
+}
+
+
 #modal-box {
     display: none;
+}
+
+.input-modal-container {
+    width: 30%;
+}
+
+
+@media (max-width:720px) {
+    .input-modal-container {
+        width: 90%;
+    }
+
 }

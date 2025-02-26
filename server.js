@@ -21,8 +21,11 @@ io.on("connection", (socket) => {
     users[socket.id] = { person_name, room_Name };
 
     // Notify user that they joined the room
-    socket.emit("message", `Welcome ${person_name}! You joined room: ${room_Name}`);
-    
+    socket.emit(
+      "message",
+      `Welcome ${person_name}! You joined room : ${room_Name}`
+    );
+
     // Notify others in the room
     socket.to(room_Name).emit("message", `${person_name} joined the chat`);
   });
@@ -39,7 +42,9 @@ io.on("connection", (socket) => {
     const user = users[socket.id];
 
     if (user) {
-      socket.to(user.room_Name).emit("message", `${user.person_name} left the chat`);
+      socket
+        .to(user.room_Name)
+        .emit("message", `${user.person_name} left the chat`);
       delete users[socket.id];
     }
   });

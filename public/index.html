@@ -31,7 +31,7 @@
     cursor: pointer;
     position: absolute;
     top: 10px;
-    right: 8px;
+    right: 12px;
     border-color: white;
     z-index: 10px;
   " class="material-symbols-outlined text-white ">
@@ -41,7 +41,7 @@
      cursor: pointer;
      position: absolute;
     top: 10px;
-    left: 8px;
+    left: 12px;
     border-color: white;
     z-index: 10px;
      " class="fw-semibold text-white">
@@ -54,23 +54,22 @@
 
   <!-- input section  -->
   <main style="position: fixed; bottom: 0" class="w-100 p-2 bg-primary d-flex gap-2">
-    <input id="user-message" placeholder="Send message..." type="text" value="" class="form-control border-2" />
+    <input id="user-message" placeholder="Send message" type="text" value="" class="form-control border-2" />
     <button id="send-message" class="btn bg-warning fw-semibold">Send</button>
   </main>
-
 
   <!--user name room name add modal  -->
   <div id="modal-box"
     style="position: fixed; left: 0; top: 0; background-color: rgb(96, 91, 91 , 0.6); height: 100vh; width: 100vw;">
-    <div class="d-flex justify-content-center h-100 w-100 align-items-center">
-      <div class="text-center">
-        <input autofocus id="user-name" type="text" class="form-control mb-2" placeholder="Enter Your Name">
-        <input type="text" id="room-name" placeholder="Enter Room Name" class="form-control mb-2">
-        <button id="add-name-btn" class="btn bg-primary text-white">Join Room</button>
+    <div class="d-flex justify-content-center h-100 w-100 align-items-center p-3">
+      <div class="text-center bg-primary p-3 rounded input-modal-container">
+        <input autofocus id="user-name" type="text" class="form-control my-3" placeholder="Enter Your Name"
+          maxlength="12">
+        <input type="text" id="room-name" placeholder="Enter Room Name or Number" class="form-control mb-3">
+        <button id="add-name-btn" class="btn bg-warning fw-semibold">Join Room</button>
       </div>
     </div>
   </div>
-
 
 
   <!-- socket.io connection -->
