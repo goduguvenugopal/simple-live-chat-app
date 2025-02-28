@@ -21,9 +21,10 @@ window.addEventListener("load", () => {
   if (userName && roomName) {
     person_name = JSON.parse(userName);
     room_Name = JSON.parse(roomName);
-
     socket.emit("join-room", { person_name, room_Name });
     modal_box.style.display = "none";
+    document.getElementById("room-name-in-menu").textContent = room_Name;
+    document.getElementById("offcanvasExampleLabel").textContent = person_name;
   } else {
     modal_box.style.display = "block";
   }
@@ -39,7 +40,8 @@ add_name_btn.addEventListener("click", () => {
   if (userName && roomName) {
     person_name = userName;
     room_Name = roomName;
-
+    document.getElementById("room-name-in-menu").textContent = room_Name;
+    document.getElementById("offcanvasExampleLabel").textContent = person_name;
     socket.emit("join-room", { person_name, room_Name });
 
     localStorage.setItem("userName", JSON.stringify(userName));
@@ -55,7 +57,10 @@ add_name_btn.addEventListener("click", () => {
 log_out.addEventListener("click", () => {
   localStorage.removeItem("userName");
   localStorage.removeItem("roomName");
-
+  person_name = "";
+  room_Name = "";
+  document.getElementById("room-name-in-menu").textContent = "Ex : room123";
+  document.getElementById("offcanvasExampleLabel").textContent = "Username";
   modal_box.style.display = "block";
 });
 
